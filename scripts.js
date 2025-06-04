@@ -231,7 +231,7 @@ async function getAISuggestions() {
         };
 
         // API key is left as an empty string; Canvas will provide it at runtime
-        const apiKey = ""; // This will be automatically populated by the Canvas environment.
+        const apiKey = "AIzaSyBBVk6MNUHPLthbQGt960nlCnZX0f6m224"; // This will be automatically populated by the Canvas environment.
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         // Make the API call to Gemini
