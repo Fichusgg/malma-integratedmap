@@ -629,3 +629,160 @@ footer {
     .social-links { justify-content: center; }
     .legal-links { align-items: center; }
 }
+
+/* AI Travel Guide Section Styles */
+#ai-travel-guide {
+    padding: clamp(3rem, 1.5rem + 6.25vw, 6rem) 0; /* Consistent with other sections */
+    background-color: var(--background-color); /* Match main background */
+}
+
+.travel-guide-container {
+    /* max-width will be handled by .container */
+    margin: 0 auto; /* Center within the container */
+    background-color: var(--muted-bg-color); /* Use a muted background for the guide box */
+    padding: 30px;
+    border-radius: 8px; /* Use a slightly less rounded corner for consistency with Malma's aesthetic */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+    text-align: center;
+    box-sizing: border-box;
+    color: var(--body-text-color); /* Use body text color */
+}
+
+.travel-guide-container h2 {
+    color: var(--primary-color); /* Use Malma's primary for the heading */
+    margin-bottom: 25px;
+    font-size: clamp(1.8em, 1.5em + 1vw, 2.2em); /* Adjust font size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--font-display); /* Use Malma's display font */
+}
+
+.input-section {
+    margin-bottom: 30px;
+}
+
+input[type="text"]#user-preference { /* Target specifically to avoid conflicts */
+    width: calc(100% - 30px);
+    padding: 15px;
+    border: 1px solid var(--light-border-color); /* Use a lighter border */
+    border-radius: 4px; /* Consistent with Malma's general aesthetic */
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: var(--font-body); /* Use body font */
+    color: var(--primary-color); /* Input text color */
+    background-color: var(--background-color); /* White input background */
+}
+
+input[type="text"]#user-preference::placeholder {
+    color: var(--body-text-color); /* Placeholder color */
+    opacity: 0.7;
+}
+
+input[type="text"]#user-preference:focus {
+    outline: none;
+    border-color: var(--accent-color); /* Use Malma's accent color on focus */
+    box-shadow: 0 0 8px rgba(172, 140, 102, 0.3); /* Soft glow with accent color */
+}
+
+button#get-suggestions-btn { /* Target specifically */
+    background-color: var(--accent-color); /* Use Malma's accent color */
+    color: var(--background-color); /* Assuming text_light is white or a contrasting color */
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px; /* Consistent with Malma's general aesthetic */
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: var(--font-body); /* Use body font */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+button#get-suggestions-btn:hover {
+    background-color: var(--primary-color); /* Hover to primary color */
+    transform: translateY(-2px);
+}
+
+button#get-suggestions-btn:active {
+    transform: translateY(0);
+}
+
+.results-section {
+    text-align: left;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-border-color); /* Use light border color */
+    min-height: 100px;
+}
+
+.results-section h3 {
+    color: var(--primary-color); /* Use Malma's primary for result heading */
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    font-family: var(--font-display); /* Use display font */
+}
+
+.place-card {
+    background-color: var(--background-color); /* White background for cards */
+    padding: 15px;
+    border-radius: 4px; /* Consistent corners */
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03); /* Lighter shadow */
+}
+
+.place-card h4 {
+    margin-top: 0;
+    color: var(--accent-color); /* Use Malma's accent for place names */
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display); /* Use display font */
+    font-weight: 500;
+}
+
+.place-card p {
+    margin-bottom: 10px;
+    color: var(--body-text-color); /* Use body text color */
+    font-size: clamp(0.875rem, 0.8333rem + 0.1736vw, 1rem); /* Use your paragraph sizes */
+}
+
+.place-card a {
+    color: var(--primary-color); /* Use Malma's primary for links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.place-card a:hover {
+    text-decoration: underline;
+    color: var(--accent-color); /* Hover to accent color */
+}
+
+.error-message {
+    color: #D32F2F; /* Retain red for error */
+    font-weight: bold;
+    margin-top: 15px;
+    font-family: var(--font-body);
+}
+
+/* Responsive Adjustments for AI Guide */
+@media (max-width: 600px) {
+    .travel-guide-container {
+        margin: 0; /* Remove auto margin, let container padding handle */
+        padding: 20px;
+    }
+
+    .travel-guide-container h2 {
+        font-size: 1.8em;
+    }
+
+    input[type="text"]#user-preference, button#get-suggestions-btn {
+        font-size: 1em;
+        padding: 12px;
+    }
+}
