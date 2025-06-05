@@ -221,7 +221,7 @@ async function getAISuggestions() {
             parts: [
                 {
                     // Updated prompt to request Portuguese and no emojis
-                    text: `Sugira de 2 a 4 lugares para visitar, comer ou explorar em Florianópolis, Brasil, com base nestas preferências: "${userPreference}". Inclua uma breve descrição e evite emojis. Mantenha as respostas com menos de 200 palavras. Formate cada sugestão em uma nova linha, começando com o nome do local, seguido por dois pontos, e depois a descrição. Inclua um link do Google Maps no final da descrição. Certifique-se de que o idioma seja português. Os links do Google Maps devem ser completos e funcionais.`
+                    text: `Sugira de 2 a 4 lugares para visitar, comer ou explorar em Florianópolis, Brasil, com base nestas preferências: "${userPreference}". Inclua uma breve descrição e evite emojis. Mantenha as respostas com menos de 200 palavras. Formate cada sugestão em uma nova linha, começando com o nome do local, seguido por dois pontos, e depois a descrição. Certifique-se de que o idioma seja português.`
                 }
             ]
         });
@@ -294,16 +294,11 @@ function displaySuggestions(text) {
 
         let name = 'Local Sugerido'; // Default Portuguese name
         let description = suggestion.trim();
-        let googleMapsLink = null;
+
 
         // Regex to extract possible Google Maps link
         // This regex is made more robust to capture various Google Maps URL formats.
-        const googleMapsLinkMatch = description.match(/(https?:\/\/(?:www\.)?(?:google\.com\/maps\/search\/\?.*query=|google\.com\/maps\/dir\/.*\/|google\.com\/maps\/place\/|goo\.gl\/maps\/|maps\.app\.goo\.gl\/)[^\s]+)/i);
-        if (googleMapsLinkMatch) {
-            googleMapsLink = googleMapsLinkMatch[1];
-            // Remove the link from the description to display cleaner text
-            description = description.replace(googleMapsLinkMatch[0], '').trim();
-        }
+
 
         // Removed emoji extraction and removal logic
 
@@ -328,14 +323,6 @@ function displaySuggestions(text) {
         descriptionElement.textContent = description;
         placeCard.appendChild(descriptionElement);
 
-        // If a Google Maps link was found, create and append it
-        if (googleMapsLink) {
-            const linkElement = document.createElement('a');
-            linkElement.href = googleMapsLink;
-            linkElement.target = '_blank'; // Open link in a new tab
-            linkElement.textContent = 'Ver no Google Maps'; // Portuguese link text
-            placeCard.appendChild(linkElement);
-        }
 
         aiResultsContainer.appendChild(placeCard);
     });
