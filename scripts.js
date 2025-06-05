@@ -137,8 +137,6 @@
 
 })();
 
-// ... (Your existing JavaScript code, e.g., for navigation toggle, carousel, etc.) ...
-
 // --- AI Travel Guide JavaScript ---
 
 // Import necessary Firebase modules
@@ -163,8 +161,6 @@ const firebaseConfig = {
     appId: "1:194009445433:web:7a5a8c77ed81e2170509e8",
     measurementId: "G-Y63HV2K8X7"
   };
-
-
 
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
@@ -194,7 +190,7 @@ onAuthStateChanged(auth, async (user) => {
             }
         } catch (error) {
             console.error("Firebase authentication error:", error);
-            displayError("Authentication failed. Please refresh the page.");
+            displayError("Falha na autenticação. Por favor, atualize a página."); // Portuguese error message
         }
     } else {
         console.log("User already signed in:", user.uid);
@@ -209,12 +205,12 @@ async function getAISuggestions() {
 
     // Validate user input
     if (!userPreference) {
-        displayError("Please tell me what kind of activities you're interested in!");
+        displayError("Por favor, diga-me que tipo de atividades você está interessado!"); // Portuguese prompt
         return;
     }
 
     // Display a loading message while waiting for AI response
-    aiResultsContainer.innerHTML = '<h3>Thinking...</h3><p>Please wait while AI generates your personalized guide...</p>';
+    aiResultsContainer.innerHTML = '<h3>Pensando...</h3><p>Por favor, aguarde enquanto a IA gera seu guia personalizado...</p>'; // Portuguese loading
     aiResultsContainer.classList.remove('error-message'); // Clear any previous error messages
 
     try {
@@ -224,7 +220,8 @@ async function getAISuggestions() {
             role: "user",
             parts: [
                 {
-                    text: `Suggest 2 to 4 places to visit, eat, or explore in Florianópolis, Brazil, based on these preferences: "${userPreference}". Include a short description and relevant emojis. Keep answers under 200 words. Format each suggestion on a new line, starting with the place name, followed by a colon, then the description. Optionally, include a Google Maps link at the end of the description.`
+                    // Updated prompt to request Portuguese and no emojis
+                    text: `Sugira de 2 a 4 lugares para visitar, comer ou explorar em Florianópolis, Brasil, com base nestas preferências: "${userPreference}". Inclua uma breve descrição e evite emojis. Mantenha as respostas com menos de 200 palavras. Formate cada sugestão em uma nova linha, começando com o nome do local, seguido por dois pontos, e depois a descrição. Inclua um link do Google Maps no final da descrição. Certifique-se de que o idioma seja português. Os links do Google Maps devem ser completos e funcionais.`
                 }
             ]
         });
@@ -232,18 +229,14 @@ async function getAISuggestions() {
         const payload = {
             contents: chatHistory,
             generationConfig: {
-                // Max tokens to control response length
                 maxOutputTokens: 300,
-                // Temperature for creativity (0.7 is a good balance)
                 temperature: 0.7,
-                // Top K and Top P for sampling diversity
                 topK: 40,
                 topP: 0.95
             }
         };
 
-        // API key is left as an empty string; Canvas will provide it at runtime
-        const apiKey = "AIzaSyBBVk6MNUHPLthbQGt960nlCnZX0f6m224"; // This will be automatically populated by the Canvas environment.
+        const apiKey = "AIzaSyBBVk6MNUHPLthbQGt960nlCnZX0f6m224";
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         // Make the API call to Gemini
@@ -269,12 +262,12 @@ async function getAISuggestions() {
             displaySuggestions(aiMessage);
         } else {
             // Handle cases where the response structure is unexpected or content is missing
-            throw new Error("AI response format is unexpected or empty.");
+            throw new Error("Formato de resposta da IA inesperado ou vazio."); // Portuguese error
         }
 
     } catch (error) {
         console.error('Error fetching AI suggestions:', error);
-        displayError(`Failed to get suggestions. Please try again later. (Error: ${error.message})`);
+        displayError(`Falha ao obter sugestões. Por favor, tente novamente mais tarde. (Erro: ${error.message})`); // Portuguese error
     }
 }
 
@@ -283,14 +276,14 @@ async function getAISuggestions() {
  * @param {string} text - The raw text response from the AI.
  */
 function displaySuggestions(text) {
-    aiResultsContainer.innerHTML = '<h3>Your Personalized Suggestions:</h3>'; // Set heading for results
+    aiResultsContainer.innerHTML = '<h3>Suas Sugestões Personalizadas:</h3>'; // Portuguese heading
 
     // Split the AI response into individual suggestions, assuming each is on a new line
     const suggestions = text.split('\n').filter(line => line.trim() !== '');
 
     // If no suggestions are found after parsing
     if (suggestions.length === 0) {
-        aiResultsContainer.innerHTML = '<h3>No suggestions found. Please try refining your request.</h3>';
+        aiResultsContainer.innerHTML = '<h3>Nenhuma sugestão encontrada. Por favor, tente refinar sua solicitação.</h3>'; // Portuguese message
         return;
     }
 
@@ -299,26 +292,20 @@ function displaySuggestions(text) {
         const placeCard = document.createElement('div');
         placeCard.classList.add('place-card');
 
-        let name = 'Suggested Place';
+        let name = 'Local Sugerido'; // Default Portuguese name
         let description = suggestion.trim();
         let googleMapsLink = null;
-        let emojis = '';
 
         // Regex to extract possible Google Maps link
-        const googleMapsLinkMatch = description.match(/(https?:\/\/(?:www\.)?google\.com\/maps\/.*?)(?:\s|$)/i);
+        // This regex is made more robust to capture various Google Maps URL formats.
+        const googleMapsLinkMatch = description.match(/(https?:\/\/(?:www\.)?(?:google\.com\/maps\/search\/\?.*query=|google\.com\/maps\/dir\/.*\/|google\.com\/maps\/place\/|goo\.gl\/maps\/|maps\.app\.goo\.gl\/)[^\s]+)/i);
         if (googleMapsLinkMatch) {
             googleMapsLink = googleMapsLinkMatch[1];
-            // Remove the link from the description
+            // Remove the link from the description to display cleaner text
             description = description.replace(googleMapsLinkMatch[0], '').trim();
         }
 
-        // Regex to extract emojis from the description
-        const emojiMatch = description.match(/[\u{1F000}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu);
-        if (emojiMatch) {
-            emojis = emojiMatch.join(' ');
-            // Remove emojis from the description
-            description = description.replace(new RegExp(emojiMatch.join('|'), 'gu'), '').trim();
-        }
+        // Removed emoji extraction and removal logic
 
         // Attempt to parse name and description.
         // Assuming format: "Place Name: Description" or "Place Name - Description"
@@ -331,9 +318,9 @@ function displaySuggestions(text) {
             name = description.split('.')[0].trim(); // Take first sentence as name
         }
 
-        // Create and append the place name (with emojis)
+        // Create and append the place name (no emojis)
         const nameElement = document.createElement('h4');
-        nameElement.innerHTML = `${name} ${emojis}`; // Add emojis next to the name
+        nameElement.textContent = name;
         placeCard.appendChild(nameElement);
 
         // Create and append the description
@@ -346,7 +333,7 @@ function displaySuggestions(text) {
             const linkElement = document.createElement('a');
             linkElement.href = googleMapsLink;
             linkElement.target = '_blank'; // Open link in a new tab
-            linkElement.textContent = 'View on Google Maps 🗺️';
+            linkElement.textContent = 'Ver no Google Maps'; // Portuguese link text
             placeCard.appendChild(linkElement);
         }
 
