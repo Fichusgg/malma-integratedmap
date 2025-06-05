@@ -150,9 +150,21 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase
 // IMPORTANT: These variables are typically injected by the Canvas platform.
 // If you are running this outside of a Canvas environment, you will need to
 // define firebaseConfig and ensure you have an API key securely managed.
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+/*const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};*/
 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDPXpLVMrWXur1hc9DbYCCB2-uBnfGH1Qc",
+    authDomain: "malmaintegrated.firebaseapp.com",
+    projectId: "malmaintegrated",
+    storageBucket: "malmaintegrated.firebasestorage.app",
+    messagingSenderId: "194009445433",
+    appId: "1:194009445433:web:7a5a8c77ed81e2170509e8",
+    measurementId: "G-Y63HV2K8X7"
+  };
+
+
 
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
